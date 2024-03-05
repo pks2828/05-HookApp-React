@@ -1,30 +1,50 @@
-# React + TypeScript + Vite
+# Aplicación de React con Contexto de Usuario
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una aplicación de React que utiliza el Contexto de Usuario para manejar los datos del usuario.
 
-Currently, two official plugins are available:
+## Pasos para crear la aplicación
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. **Configuración inicial**: Crea un nuevo proyecto de React con `create-react-app` o tu herramienta de inicio de proyecto preferida.
 
-## Expanding the ESLint configuration
+2. **Estructura de carpetas**: Organiza tu proyecto en carpetas. Por ejemplo, puedes tener una carpeta `components` para tus componentes de React, una carpeta `context` para tus contextos de React, etc.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+3. **Crear la interfaz `User`**: Define una interfaz `User` que describa los datos del usuario que planeas manejar en tu aplicación.
 
-- Configure the top-level `parserOptions` property like this:
+4. **Crear el `UserContext`**: Utiliza `createContext` de React para crear un nuevo contexto para los datos del usuario. Asegúrate de que el contexto tenga el tipo `User | undefined`.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+5. **Crear el `UserProvider`**: Crea un componente `UserProvider` que envuelva a sus hijos con el `UserContext.Provider`. Este componente debe mantener el estado del usuario y proporcionar una función para actualizar ese estado.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+6. **Usar el `UserProvider` en tu aplicación**: Envolucra tu aplicación (o cualquier parte de tu aplicación que necesite acceder a los datos del usuario) con el `UserProvider`.
+
+7. **Crear el componente `HomePage`**: Crea un componente `HomePage` que use `useContext` para acceder a los datos del usuario del `UserContext`. Este componente debe renderizar los datos del usuario de alguna manera.
+
+8. **Renderizar el componente `HomePage` en tu aplicación**: Asegúrate de que tu aplicación renderiza el componente `HomePage` en algún lugar.
+
+9. **Probar tu aplicación**: Inicia tu aplicación y verifica que todo funcione como se espera. Deberías ver los datos del usuario renderizados en la `HomePage`.
+
+10. **Refinamiento y características adicionales**: A partir de aquí, puedes continuar desarrollando y refinando tu aplicación según sea necesario. Por ejemplo, podrías agregar una forma de cambiar el usuario actual, manejar la autenticación de usuarios, etc.
+
+## Código Principal
+
+El componente principal es `HomePage`, que se define de la siguiente manera:
+
+```typescriptreact
+import { useContext } from "react"
+import { UserContext } from "./context/UserContext"
+
+export const HomePage = () => {
+
+    const { user } = useContext( UserContext )
+
+    return (
+      <>
+          <h1>HomePage <small>{user?.name}</small> </h1>
+          <hr />
+
+          <pre>
+              { JSON.stringify( user, null, 3 ) }
+          </pre>
+
+      </>
+    )
+  }
